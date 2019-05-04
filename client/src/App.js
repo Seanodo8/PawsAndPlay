@@ -1,20 +1,29 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Login from "./pages/Login";
+import Park from "./pages/Park";
+import Profile from "./pages/Profile";
 import Nav from "./components/Nav";
 
-class App extends Component {
-  render() {
+
+
+function App() {
     return (
+      <Router>
       <div>
-      <Nav />
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to Paws and Play!</h2>
-        </div>
-        
+      
+        <Switch>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/park" component={Park} />
+        <Route exact path="/profile" component={Profile} />
+
+        </Switch>
+
       </div>
-      </div>
+    </Router>
     );
   }
-}
+
 
 export default App;
