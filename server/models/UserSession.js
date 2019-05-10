@@ -1,18 +1,10 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+mongoose.promise = Promise;
 
-const UserSessionSchema = new mongoose.Schema({
-    userId:{
-        type: String,
-        default: ''
-    },
-    timestamp: {
-        type: Date,
-        default: Date.now()
-    },
-    isDeleted: {
-        type: Boolean,
-        default: false
-    }
+const UserSchema = new mongoose.Schema({
+    email:{ type: String, unique:true, required: true},
+    password:{ type: String, unique:false, required: true}
 })
 
 UserSchema.methods.generateHash = function(password){
@@ -23,4 +15,16 @@ UserSchema.methods.validPassword = function(password){
     return bcrypt.compareSync(password, this.password);
 }
 
-module.exports = mongoose.model('UserSession', UserSessionSchema)
+UserSchema.pre('save', function (next) {
+    if (!this.password) {
+      console.log('models/user.js =======NO PASSWORD PROVIDED=======')
+      next()
+    } else {
+      console.log('models/user.js hashPassword in pre save');
+      this.password = this.generateHash(this.password)
+      next()
+    }
+  })
+
+
+module.exports = mongoose.model('User', UserSchema)

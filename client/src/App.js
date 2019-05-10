@@ -1,13 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import Park from "./pages/Park";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import axios from "axios";
 
-function App() {
-  return (
+class App extends Component {
+  state={ loggedin: false }
+  componentDidMount(){
+    axios.get('/user/').then(response => {});
+  }
+  render (){
+    return(
     <Router>
       <div>
         <Switch>
@@ -21,6 +27,8 @@ function App() {
       </div>
     </Router>
   );
+}
+
 }
 
 export default App;
